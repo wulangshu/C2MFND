@@ -8,9 +8,9 @@ from transformers import BertModel,RobertaModel,LongformerModel
 from utils import data2gpu,Averager,metrics,Recorder,Buffer,getfeature_domain,get_D_feature
 from layer import *
 
-class CrossDomainRDModel(nn.Module):
+class MultiDomainFNDModel(nn.Module):
     def __init__(self,feature_kernel,domain_num,emb_dim,mlp_dim,W_dim,head_num,ffn_dim,bert,Dd,pool_size,middel_dim,dropout,is_causal,language,semantic_num,emotion_num,style_num):
-        super(CrossDomainRDModel,self).__init__()
+        super(MultiDomainFNDModel,self).__init__()
         self.domain_num=domain_num
         self.semantic_num=semantic_num
         self.emotion_num=emotion_num
@@ -191,7 +191,7 @@ class Trainer():
         
     def train(self):
         
-        self.model=CrossDomainRDModel(self.feature_kernel,self.domain_num,self.emb_dim,self.mlp_dim,self.W_dim,self.head_num,self.ffn_dim,self.bert,self.Dd,self.pool_size,self.middel_dim,self.dropout,self.is_causal,self.language,self.semantic_num,self.emotion_num,self.style_num)
+        self.model=MultiDomainFNDModel(self.feature_kernel,self.domain_num,self.emb_dim,self.mlp_dim,self.W_dim,self.head_num,self.ffn_dim,self.bert,self.Dd,self.pool_size,self.middel_dim,self.dropout,self.is_causal,self.language,self.semantic_num,self.emotion_num,self.style_num)
 
         if self.use_cuda:
             self.model.cuda()

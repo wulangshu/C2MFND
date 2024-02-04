@@ -5,7 +5,7 @@ import numpy as np
 import os
 from dataloader import read_pkl,df_filter,word2input
 from torch.utils.data import TensorDataset
-from config import CDRDConfig
+from config import C2MFNDConfig
 from transformers import BertModel,RobertaModel,LongformerModel
 from layer import Cnn_extractor,MLP,CrossAttention
 from utils import Buffer,getfeature_domain
@@ -226,8 +226,8 @@ def start(i:int):
     torch.cuda.manual_seed(seed)
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
-    config=CDRDConfig()
-    model=Generator(config.feature_kernel,config.emb_dim,config.middel_dim,config.W_dim,config.head_num,config.ffn_dim,config.dropout,config.domain_num,config.bert,os.path.join(config.save_param_dir,'semantic_extractor1.pkl'),config.semantic_num,os.path.join(config.save_param_dir,'emotion_extractor1.pkl'),config.emotion_num,os.path.join(config.save_param_dir,'style_extractor1.pkl'),config.style_num,os.path.join(config.save_param_dir,'weight1.pkl'),os.path.join(config.save_param_dir,'crossAttention1.pkl'),os.path.join(config.save_param_dir,'buffer_CDRD1.pkl'),config.language)
+    config=C2MFNDConfig()
+    model=Generator(config.feature_kernel,config.emb_dim,config.middel_dim,config.W_dim,config.head_num,config.ffn_dim,config.dropout,config.domain_num,config.bert,os.path.join(config.save_param_dir,'semantic_extractor1.pkl'),config.semantic_num,os.path.join(config.save_param_dir,'emotion_extractor1.pkl'),config.emotion_num,os.path.join(config.save_param_dir,'style_extractor1.pkl'),config.style_num,os.path.join(config.save_param_dir,'weight1.pkl'),os.path.join(config.save_param_dir,'crossAttention1.pkl'),os.path.join(config.save_param_dir,'buffer_C2MFND1.pkl'),config.language)
     if config.use_cuda:
         model.cuda()
     model.eval()

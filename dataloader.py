@@ -3,7 +3,7 @@ import random
 import pandas as pd
 import numpy as np
 import pickle
-from config import CDRDConfig
+from config import C2MFNDConfig
 from transformers import BertTokenizer,RobertaTokenizer,AutoTokenizer
 from torch.utils.data import TensorDataset, DataLoader
 from copy import deepcopy

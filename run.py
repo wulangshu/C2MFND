@@ -1,20 +1,20 @@
 import torch 
 import os
 from dataloader import bert_data
-from CDRD import Trainer as CDRDtrainer
-from config import CDRDConfig
+from C2MFND import Trainer as C2MFNDtrainer
+from config import C2MFNDConfig
 from utils import experiment
 
 
 class Run():
     def __init__(self,flag=False):
-        self.config=CDRDConfig()
+        self.config=C2MFNDConfig()
 
         if flag==True:
-            setattr(self.config,'model_name',"CDRD_causal")
+            setattr(self.config,'model_name',"C2MFND_causal")
             setattr(self.config,'early_stop',10)
         else:
-            setattr(self.config,'model_name',"CDRD")
+            setattr(self.config,'model_name',"C2MFND")
             setattr(self.config,'early_stop',3)
             
 
@@ -33,11 +33,11 @@ class Run():
 
     def main(self):
         train_loader,train_proportion,val_loader,val_proportion,test_loader,test_proportion=self.get_dataloader()#使用proportion检测发现模拟实验与数据集分布有一致性，且呈对数正态分布
-        if self.config.model_name=='CDRD':
-            trainer=CDRDtrainer(self.config,train_loader,val_loader,test_loader,False)
-        if self.config.model_name=='CDRD_causal':
+        if self.config.model_name=='C2MFND':
+            trainer=C2MFNDtrainer(self.config,train_loader,val_loader,test_loader,False)
+        if self.config.model_name=='C2MFND_causal':
             train_buffer_simulation,val_buffer_simulation,test_buffer_simulation=experiment(train_proportion,self.config.domain_num,self.config.batch_size),experiment(val_proportion,self.config.domain_num,self.config.batch_size),experiment(test_proportion,self.config.domain_num,self.config.batch_size)
-            trainer=CDRDtrainer(self.config,train_loader,val_loader,test_loader,True,train_buffer_simulation,val_buffer_simulation,test_buffer_simulation)
+            trainer=C2MFNDtrainer(self.config,train_loader,val_loader,test_loader,True,train_buffer_simulation,val_buffer_simulation,test_buffer_simulation)
         
         k,_=trainer.train()
         return k

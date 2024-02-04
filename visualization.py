@@ -1,13 +1,13 @@
 #使用t-SNE降维
 from sklearn import manifold
-from CDRD import CrossDomainRDModel
+from C2MFND import MultiDomainFNDModel
 import torch 
 import torch.nn as nn
 import os
 import tqdm
 import numpy as np
 import pickle
-from config import CDRDConfig
+from config import C2MFNDConfig
 from utils import data2gpu,experiment
 from layer import *
 import numpy as np
@@ -86,18 +86,18 @@ class Visualizer():
     def start(self,fig1,fig2,seed):
         
 
-        self.model=CrossDomainRDModel(self.feature_kernel,self.domain_num,self.emb_dim,self.mlp_dim,self.W_dim,self.head_num,self.ffn_dim,self.bert,self.Dd,self.pool_size,self.middel_dim,self.dropout,self.is_causal,self.language,self.semantic_num,self.emotion_num,self.style_num)
+        self.model=MultiDomainFNDModel(self.feature_kernel,self.domain_num,self.emb_dim,self.mlp_dim,self.W_dim,self.head_num,self.ffn_dim,self.bert,self.Dd,self.pool_size,self.middel_dim,self.dropout,self.is_causal,self.language,self.semantic_num,self.emotion_num,self.style_num)
 
         if self.use_cuda:
             self.model.cuda()
             
         if self.is_causal:
-            self.model.load_state_dict(torch.load(os.path.join(self.save_param_dir,'parameter_CDRD_withcausal.pkl')))
-            with open(os.path.join(self.save_param_dir,'buffer_CDRD_withcausal.pkl'), 'rb') as file:
+            self.model.load_state_dict(torch.load(os.path.join(self.save_param_dir,'parameter_C2MFND_withcausal.pkl')))
+            with open(os.path.join(self.save_param_dir,'buffer_C2MFND_withcausal.pkl'), 'rb') as file:
                 self.model.buffer = pickle.load(file)
         else:
-            self.model.load_state_dict(torch.load(os.path.join(self.save_param_dir,'parameter_CDRD_nocausal.pkl')))
-            with open(os.path.join(self.save_param_dir,'buffer_CDRD_nocausal.pkl'), 'rb') as file:
+            self.model.load_state_dict(torch.load(os.path.join(self.save_param_dir,'parameter_C2MFND_nocausal.pkl')))
+            with open(os.path.join(self.save_param_dir,'buffer_C2MFND_nocausal.pkl'), 'rb') as file:
                 self.model.buffer = pickle.load(file)
 
         out_F,out_T = [],[]
@@ -213,13 +213,13 @@ handles_fig2=[mlines.Line2D([0], [0], color='white',markerfacecolor= 'darkred',m
          ]
 
 seed=2014
-Visualizer(CDRDConfig(),False).start(fig1,fig2,seed)
+Visualizer(C2MFNDConfig(),False).start(fig1,fig2,seed)
 fig1.subplots_adjust(wspace=0)
 l1=fig1.legend(prop = {'family': 'Times New Roman','size':16},handles=color_handles_positive,bbox_to_anchor=(0.97,0.95),frameon=True,title='Positive',title_fontproperties={'family': 'Times New Roman','size':16},handletextpad=0)
 fig1.legend(prop = {'family': 'Times New Roman','size':16},handles=color_handles_negative,bbox_to_anchor=(0.97,0.5),frameon=True,title='Negative',title_fontproperties={'family': 'Times New Roman','size':16},handletextpad=0)
 fig1.add_artist(l1)
 
-Visualizer(CDRDConfig(),True).start(fig1,fig2,seed)
+Visualizer(C2MFNDConfig(),True).start(fig1,fig2,seed)
 fig2.subplots_adjust(wspace=0)
 fig2.legend(prop = {'family': 'Times New Roman','size':36},handles=handles_fig2,bbox_to_anchor=(0.97,0.95),frameon=True,handletextpad=0)
 
