@@ -229,16 +229,16 @@ class Trainer():
             mark =recorder.add(results)
 
             if mark=='save':
-                torch.save(self.model.state_dict(),os.path.join(self.save_param_dir,'parameter_CDRD.pkl'))
-                with open(os.path.join(self.save_param_dir,'buffer_CDRD.pkl'), 'wb') as file:
+                torch.save(self.model.state_dict(),os.path.join(self.save_param_dir,'parameter_C2MFND.pkl'))
+                with open(os.path.join(self.save_param_dir,'buffer_C2MFND.pkl'), 'wb') as file:
                     pickle.dump(self.model.buffer, file)
             elif mark=='esc':
                 break
             else:
                 continue
             
-        self.model.load_state_dict(torch.load(os.path.join(self.save_param_dir,'parameter_CDRD.pkl')))
-        with open(os.path.join(self.save_param_dir,'buffer_CDRD.pkl'), 'rb') as file:
+        self.model.load_state_dict(torch.load(os.path.join(self.save_param_dir,'parameter_C2MFND.pkl')))
+        with open(os.path.join(self.save_param_dir,'buffer_C2MFND.pkl'), 'rb') as file:
             self.model.buffer = pickle.load(file)
 
         results = self.test(self.is_causal,self.train_buffer_simulation,self.test_loader)
@@ -257,7 +257,7 @@ class Trainer():
             torch.save(crossAttention.state_dict(),os.path.join(self.save_param_dir,'crossAttention.pkl'))
             
 
-        return results, os.path.join(self.save_param_dir,'parameter_CDRD.pkl')
+        return results, os.path.join(self.save_param_dir,'parameter_C2MFND.pkl')
             
     def test(self,is_causal,simulation,dataloader):
         pred = []
