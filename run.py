@@ -7,16 +7,9 @@ from utils import experiment
 
 
 class Run():
-    def __init__(self,flag=False):
+    def __init__(self):
         self.config=C2MFNDConfig()
 
-        if flag==True:
-            setattr(self.config,'model_name',"C2MFND_causal")
-            setattr(self.config,'early_stop',10)
-        else:
-            setattr(self.config,'model_name',"C2MFND")
-            setattr(self.config,'early_stop',3)
-            
 
     def get_dataloader(self):
         loader=bert_data(max_len = self.config.max_len, batch_size = self.config.batch_size, pool_size=self.config.pool_size, bert = self.config.bert,

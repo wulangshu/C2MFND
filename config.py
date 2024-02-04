@@ -8,7 +8,10 @@ class C2MFNDConfig():
         # self.language='cn'
         
         self.root_dir="."
-        self.early_stop=3
+        if self.model_name=='C2MFND':
+            self.early_stop=3
+        else:
+            self.early_stop=10
 
         self.dropout=0.2
         self.weight_decay=5e-5
